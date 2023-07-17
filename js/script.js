@@ -8,18 +8,26 @@ let photosArray = [];
 
 // Unsplash API
 const count = 30;
-// const apiKey = 'wYWaXiDBtyC47GX3e7ECtbjjbAidSM0c-Ue6PWZR9g0';
-const key1 = 'hlCwgSQfJUze6-qbz8voTfnVLrgZtWyLEVN7t8q_mZQ';
-const apiUrl = `https://api.unsplash.com/photos/random/?client_id=${key1}&count=${count}`;
+const apiKey = 'wYWaXiDBtyC47GX3e7ECtbjjbAidSM0c-Ue6PWZR9g0';
+// const key1 = 'hlCwgSQfJUze6-qbz8voTfnVLrgZtWyLEVN7t8q_mZQ';
+const apiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&count=${count}`;
 
 // Check if all images were loaded
 
 const renderHTML = function (photo) {
+	console.log(photo);
 	let html = `
 	<div class="card-body">
             <div class="body-author">
                 <div class="author-photo"><img src="${photo.user.profile_image.small}"></div>
-                <h3 class="author">${photo.user.instagram_username}</h3>
+                <h3 class="author">${
+									photo.user.instagram_username === null
+										? photo.user.first_name + '_' + photo.user.last_name
+										: photo.user.instagram_username
+								}
+					
+
+				</h3>
                 <button type="button">...</button>
             </div>
             <div class="body-image">
@@ -34,8 +42,7 @@ const renderHTML = function (photo) {
                 </div>
                 <div class="likes">${photo.likes} likes</div>
                 <div class="description">
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis,
-                        aspernatur?</p>
+                    <p><b>${photo.user.instagram_username}</b> ${photo.alt_description}</p>
                 </div>
                 <div class="comments">
                     <p>View all <span>X</span> comments</p>
