@@ -14,17 +14,47 @@ const apiUrl = `https://api.unsplash.com/photos/random/?client_id=${key1}&count=
 
 // Check if all images were loaded
 
+const renderHTML = function (photo) {
+	let html = `
+	<div class="card-body">
+            <div class="body-author">
+                <div class="author-photo"><img src="${photo.user.profile_image.small}"></div>
+                <h3 class="author">${photo.user.instagram_username}</h3>
+                <button type="button">...</button>
+            </div>
+            <div class="body-image">
+                <a id="item"><img id="img" src="${photo.urls.regular}"></a>
+            </div>
+            <div class="body-content">
+                <div class="icons">
+                    <i class="fa-regular fa-heart"></i>
+                    <i class="fa-regular fa-comment"></i>
+                    <i class="fa-regular fa-paper-plane"></i>
+                    <i class="fa-regular fa-bookmark"></i>
+                </div>
+                <div class="likes">${photo.likes} likes</div>
+                <div class="description">
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis,
+                        aspernatur?</p>
+                </div>
+                <div class="comments">
+                    <p>View all <span>X</span> comments</p>
+                </div>
+            </div>
+        </div>`;
+
+	imageContainer.insertAdjacentHTML('beforeend', html);
+};
+
 function imageLoaded() {
 	imagesLoaded++;
-	console.log(imagesLoaded);
 	if (imagesLoaded === totalImages) {
 		imagesLoaded = 0;
 		ready = true;
-		console.log('ready =', ready);
 	}
 }
 
-// Helper functtion to set attributes on DOM elements
+// Helper function to set attributes on DOM elements
 
 function setAttributes(element, attributes) {
 	for (const key in attributes) {
@@ -36,16 +66,9 @@ function setAttributes(element, attributes) {
 
 function displayPhotos() {
 	totalImages = photosArray.length;
-	console.log('total images', totalImages);
 	// Run function for each object in photosArray
 	photosArray.forEach(photo => {
-		// Create <a> to link to Unsplash
-
-		const item = document.createElement('a');
-		setAttributes(item, {
-			href: photo.links.html,
-			target: '_blank',
-		});
+		renderHTML(photo);
 
 		const img = document.createElement('img');
 		setAttributes(img, {
@@ -60,8 +83,8 @@ function displayPhotos() {
 
 		// put <img> inside <a> then put both inside imageContainer element
 
-		item.appendChild(img);
-		imageContainer.appendChild(item);
+		// item.appendChild(img);
+		// imageContainer.appendChild(item);
 	});
 }
 
